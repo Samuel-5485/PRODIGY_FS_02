@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import multer from 'multer';
 import path from 'path'
 
+
 const router = express.Router();
 router.post('/adminlogin', (req, res) => {
     const sql = "SELECT * FROM admin WHERE email = ? AND password = ?";
@@ -17,7 +18,7 @@ router.post('/adminlogin', (req, res) => {
         if (result.length > 0) {
             const email = result[0].email;
             const token = jwt.sign(
-                { role: "admin", email: email },
+                { role: "admin", email: email, id: result[0].id },
                 "jwt_secret_key", { expiresIn: "1d" }
             );
             res.cookie('token', token);
